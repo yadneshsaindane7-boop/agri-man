@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CropScheduler Pro - Farm Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title" data-lang="sidebarTitle">🌾 CropScheduler</h2>
+                <div class="language-switcher">
+                    <button id="lang-en" class="lang-btn active" data-lang-code="en">EN</button>
+                    <button id="lang-mr" class="lang-btn" data-lang-code="mr">MR</button>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="menu-item active" data-section="dashboard" data-lang="dashboard">📊 Dashboard</a></li>
+                <li><a href="#" class="menu-item" data-section="calendar" data-lang="calendar">📅 Calendar</a></li>
+                <li><a href="#" class="menu-item" data-section="crops" data-lang="crops">🌱 Crops</a></li>
+                <li><a href="#" class="menu-item" data-section="tasks" data-lang="tasks">✅ Tasks</a></li>
+                <li><a href="#" class="menu-item" data-section="weather" data-lang="weather">🌤️ Weather</a></li>
+                <li><a href="#" class="menu-item" data-section="rotation" data-lang="rotation">🔄 Rotation</a></li>
+                <li><a href="#" class="menu-item" data-section="reports" data-lang="reports">📈 Reports</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <div>
+                        <h1 data-lang="dashboardTitle">Dashboard</h1>
+                        <p class="section-subtitle" data-lang="dashboardSubtitle">Overview of your farming operations</p>
+                    </div>
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">🌱</div>
+                        <div class="stat-content">
+                            <h3 id="total-crops">0</h3>
+                            <p data-lang="activeCrops">Active Crops</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-content">
+                            <h3 id="pending-tasks">0</h3>
+                            <p data-lang="pendingTasks">Pending Tasks</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-content">
+                            <h3 id="upcoming-events">0</h3>
+                            <p data-lang="eventsThisWeek">This Week</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🌤️</div>
+                        <div class="stat-content">
+                            <h3 id="current-temp">--°</h3>
+                            <p data-lang="currentTemp">Current Temp</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3 data-lang="upcomingTasks">Upcoming Tasks</h3>
+                            <div id="upcoming-tasks-list" class="task-list"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__body">
+                            <h3 data-lang="seasonOverview">Season Overview</h3>
+                            <div id="season-overview"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="calendar" class="section">
+                <div class="section-header">
+                    <h1 data-lang="calendarTitle">Crop Calendar</h1>
+                    <div class="calendar-controls">
+                        <button class="btn btn--secondary" id="prev-month" data-lang="prevMonth">← Previous</button>
+                        <span id="current-month-year" class="current-month"></span>
+                        <button class="btn btn--secondary" id="next-month" data-lang="nextMonth">Next →</button>
+                        <button class="btn btn--primary" id="add-event-btn" data-lang="addEvent">+ Add Event</button>
+                    </div>
+                </div>
+                
+                <div class="calendar-legend">
+                    <span class="legend-item"><span class="legend-color planting"></span><span data-lang="legendPlanting">Planting</span></span>
+                    <span class="legend-item"><span class="legend-color maintenance"></span><span data-lang="legendMaintenance">Maintenance</span></span>
+                    <span class="legend-item"><span class="legend-color harvest"></span><span data-lang="legendHarvest">Harvest</span></span>
+                </div>
+                
+                <div class="calendar-container">
+                    <div class="calendar-grid" id="calendar-grid"></div>
+                </div>
+            </section>
+
+            <section id="crops" class="section">
+                <div class="section-header">
+                    <h1 data-lang="cropDatabase">Crop Database</h1>
+                    <div class="section-controls">
+                        <input type="text" id="crop-search" class="form-control" data-lang="searchCrops" placeholder="Search crops...">
+                        <select id="crop-filter" class="form-control">
+                            <option value="" data-lang="allFamilies">All Families</option>
+                        </select>
+                        <button class="btn btn--primary" id="add-crop-btn" data-lang="addCrop">+ Add Crop</button>
+                    </div>
+                </div>
+                <div class="crops-grid" id="crops-grid"></div>
+            </section>
+
+            <section id="tasks" class="section">
+                <div class="section-header">
+                    <h1 data-lang="taskManagement">Task Management</h1>
+                    <div class="section-controls">
+                        <select id="task-filter" class="form-control">
+                            <option value="" data-lang="allTasks">All Tasks</option>
+                            <option value="Pending" data-lang="pending">Pending</option>
+                            <option value="Completed" data-lang="completed">Completed</option>
+                        </select>
+                        <button class="btn btn--primary" id="add-task-btn" data-lang="addTask">+ Add Task</button>
+                    </div>
+                </div>
+                <div class="tasks-container">
+                    <div id="tasks-list" class="tasks-list"></div>
+                </div>
+            </section>
+
+            <section id="weather" class="section">
+                <div class="section-header">
+                    <div>
+                        <h1 data-lang="weatherTitle">Weather Dashboard</h1>
+                        <p class="section-subtitle" data-lang="weatherSubtitle">Current conditions and 7-day forecast</p>
+                    </div>
+                </div>
+                <div class="weather-container">
+                    <div class="current-weather card">
+                        <div class="card__body">
+                            <h3 data-lang="currentWeather">Current Weather</h3>
+                            <div class="current-weather-content">
+                                <div class="weather-main">
+                                    <span class="weather-temp" id="current-weather-temp">--°F</span>
+                                    <span class="weather-condition" id="current-weather-condition">--</span>
+                                </div>
+                                <div class="weather-details">
+                                    <div class="weather-detail">
+                                        <span data-lang="humidity">Humidity:</span>
+                                        <span id="current-humidity">--%</span>
+                                    </div>
+                                    <div class="weather-detail">
+                                        <span data-lang="wind">Wind:</span>
+                                        <span id="current-wind">-- mph</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="forecast-container">
+                        <h3 data-lang="forecastTitle">7-Day Forecast</h3>
+                        <div class="forecast-grid" id="forecast-grid"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="rotation" class="section">
+                <div class="section-header">
+                    <div>
+                        <h1 data-lang="rotationTitle">Crop Rotation Planner</h1>
+                        <p class="section-subtitle" data-lang="rotationSubtitle">Plan multi-year crop rotations for soil health</p>
+                    </div>
+                </div>
+                <div class="rotation-container">
+                    <div class="rotation-fields">
+                        <div class="field-card" data-field="1">
+                            <h4>Field 1</h4>
+                            <div class="rotation-years">
+                                <div class="year-slot" data-year="2025"><span class="year-label">2025</span><div class="crop-slot" id="field1-2025" data-lang="assignCropPrompt">Click to assign crop</div></div>
+                                <div class="year-slot" data-year="2026"><span class="year-label">2026</span><div class="crop-slot" id="field1-2026" data-lang="assignCropPrompt">Click to assign crop</div></div>
+                                <div class="year-slot" data-year="2027"><span class="year-label">2027</span><div class="crop-slot" id="field1-2027" data-lang="assignCropPrompt">Click to assign crop</div></div>
+                            </div>
+                        </div>
+                        <div class="field-card" data-field="2">
+                            <h4>Field 2</h4>
+                            <div class="rotation-years">
+                                <div class="year-slot" data-year="2025"><span class="year-label">2025</span><div class="crop-slot" id="field2-2025" data-lang="assignCropPrompt">Click to assign crop</div></div>
+                                <div class="year-slot" data-year="2026"><span class="year-label">2026</span><div class="crop-slot" id="field2-2026" data-lang="assignCropPrompt">Click to assign crop</div></div>
+                                <div class="year-slot" data-year="2027"><span class="year-label">2027</span><div class="crop-slot" id="field2-2027" data-lang="assignCropPrompt">Click to assign crop</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rotation-recommendations card">
+                        <div class="card__body">
+                            <h3 data-lang="recommendations">Rotation Recommendations</h3>
+                            <ul id="rotation-tips">
+                                <li data-lang="tip1">Rotate different crop families to prevent soil depletion</li>
+                                <li data-lang="tip2">Follow legumes with nitrogen-hungry crops</li>
+                                <li data-lang="tip3">Use cover crops to improve soil structure</li>
+                                <li data-lang="tip4">Avoid planting the same family consecutively</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="reports" class="section">
+                <div class="section-header">
+                    <div>
+                        <h1 data-lang="reportsTitle">Reports & Analytics</h1>
+                        <p class="section-subtitle" data-lang="reportsSubtitle">Insights and summaries of your farming operations</p>
+                    </div>
+                </div>
+                <div class="reports-container">
+                    <div class="report-cards">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3 data-lang="plantingSchedule">Planting Schedule</h3>
+                                <div class="chart-container" style="position: relative; height: 300px;"><canvas id="planting-chart"></canvas></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card__body">
+                                <h3 data-lang="taskCompletion">Task Completion</h3>
+                                <div class="chart-container" style="position: relative; height: 300px;"><canvas id="task-chart"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card__body">
+                            <h3 data-lang="seasonSummary">Season Summary</h3>
+                            <div id="season-summary"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="event-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header"><h3 data-lang="addEventTitle">Add Calendar Event</h3><button class="modal-close" id="close-event-modal">&times;</button></div>
+            <form id="event-form">
+                <div class="form-group"><label class="form-label" data-lang="formTitle">Title:</label><input type="text" id="event-title" class="form-control" required></div>
+                <div class="form-group"><label class="form-label" data-lang="formDate">Date:</label><input type="date" id="event-date" class="form-control" required></div>
+                <div class="form-group"><label class="form-label" data-lang="formType">Type:</label><select id="event-type" class="form-control"><option value="planting" data-lang="legendPlanting">Planting</option><option value="maintenance" data-lang="legendMaintenance">Maintenance</option><option value="harvest" data-lang="legendHarvest">Harvest</option></select></div>
+                <div class="modal-actions"><button type="button" class="btn btn--secondary" id="cancel-event" data-lang="cancel">Cancel</button><button type="submit" class="btn btn--primary" data-lang="addEventBtn">Add Event</button></div>
+            </form>
+        </div>
+    </div>
+    <div id="crop-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header"><h3 data-lang="addCropTitle">Add Crop</h3><button class="modal-close" id="close-crop-modal">&times;</button></div>
+            <form id="crop-form">
+                <div class="form-group"><label class="form-label" data-lang="formCropName">Crop Name:</label><input type="text" id="crop-name" class="form-control" required></div>
+                <div class="form-group"><label class="form-label" data-lang="formFamily">Family:</label><input type="text" id="crop-family" class="form-control" required></div>
+                <div class="form-group"><label class="form-label" data-lang="formMaturity">Days to Maturity:</label><input type="number" id="crop-maturity" class="form-control" required></div>
+                <div class="form-group"><label class="form-label" data-lang="formDepth">Planting Depth:</label><input type="text" id="crop-depth" class="form-control" required></div>
+                <div class="form-group"><label class="form-label" data-lang="formSpacing">Spacing:</label><input type="text" id="crop-spacing" class="form-control" required></div>
+                <div class="modal-actions"><button type="button" class="btn btn--secondary" id="cancel-crop" data-lang="cancel">Cancel</button><button type="submit" class="btn btn--primary" data-lang="addCropBtn">Add Crop</button></div>
+            </form>
+        </div>
+    </div>
+    <div id="task-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header"><h3 data-lang="addTaskTitle">Add Task</h3><button class="modal-close" id="close-task-modal">&times;</button></div>
+            <form id="task-form">
+                <div class="form-group"><label class="form-label" data-lang="formTitle">Task Title:</label><input type="text" id="task-title" class="form-control" required></div>
+                <div class="form-group"><label class="form-label" data-lang="formCategory">Category:</label><select id="task-category" class="form-control"></select></div>
+                <div class="form-group"><label class="form-label" data-lang="formDueDate">Due Date:</label><input type="date" id="task-date" class="form-control" required></div>
+                <div class="form-group"><label class="form-label" data-lang="formPriority">Priority:</label><select id="task-priority" class="form-control"></select></div>
+                <div class="modal-actions"><button type="button" class="btn btn--secondary" id="cancel-task" data-lang="cancel">Cancel</button><button type="submit" class="btn btn--primary" data-lang="addTaskBtn">Add Task</button></div>
+            </form>
+        </div>
+    </div>
+    <div id="crop-assignment-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header"><h3 data-lang="assignCropModalTitle">Assign Crop to Field</h3><button class="modal-close" id="close-assignment-modal">&times;</button></div>
+            <div class="assignment-content"><p><span data-lang="selectCropFor">Select a crop for</span> <span id="assignment-field-info"></span>:</p><div id="crop-selection-grid" class="crop-selection-grid"></div></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="translations.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
